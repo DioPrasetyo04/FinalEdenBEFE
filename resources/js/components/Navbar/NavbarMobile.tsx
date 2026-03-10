@@ -3,22 +3,27 @@ import { useActiveScroll } from "@/hooks/Navbar/hasActiveScroll";
 import { useScrollToSection } from "@/hooks/Navbar/useScrollToSection";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/hooks/useTheme";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { Bot, Globe, Moon, Phone, Sun, X } from "lucide-react";
-import React, { useState } from "react";
 
-const NavbarMobile = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+interface NavbarMobileProps {
+    mobileMenuOpen: boolean;
+    setMobileMenuOpen: (open: boolean) => void;
+}
+
+const NavbarMobile = ({ mobileMenuOpen, setMobileMenuOpen }: NavbarMobileProps) => {
 
     const { darkMode, setDarkMode } = useTheme();
 
     const { language, setLanguage } = useLanguage();
 
     const { activeSection } = useActiveScroll();
+    const { scrollToSection } = useScrollToSection();
 
     const handleClickButtonToSection = (id: string) => {
-        const { scrollToSection } = useScrollToSection();
         scrollToSection(id);
+        setMobileMenuOpen(false);
     };
     return (
         <AnimatePresence>

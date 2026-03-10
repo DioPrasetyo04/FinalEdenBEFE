@@ -8,7 +8,7 @@ export function useActiveScroll() {
             const sections = [
                 "home",
                 "services",
-                "coffins",
+                "products",
                 "about",
                 "contact",
             ];

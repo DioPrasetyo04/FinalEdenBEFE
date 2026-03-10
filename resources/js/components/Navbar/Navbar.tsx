@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun, Globe, Phone, Bot } from "lucide-react";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { navItems } from "@/data/Datas";
 import NavbarDekstop from "./NavbarDekstop";
@@ -80,7 +80,7 @@ export function Navbar() {
             </motion.nav>
 
             {/* Mobile Menu */}
-            <NavbarMobile></NavbarMobile>
+            <NavbarMobile mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
         </>
     );
 }
