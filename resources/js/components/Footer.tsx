@@ -57,7 +57,14 @@ export default function Footer() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
                         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="space-y-6 lg:col-span-1">
                             <div>
-                                <h3 className="text-3xl lg:text-4xl text-[#C8A45C] dark:text-[#D4AF37] mb-3" style={{ fontFamily: "Playfair Display, serif" }}>NEW EDEN</h3>
+                                <div className="flex items-center gap-3 mb-3">
+                                    <img
+                                        src="/assets/image/new-eden.png"
+                                        alt="NEW EDEN Logo"
+                                        className="w-12 h-12 object-cover object-center rounded-tl-4xl rounded-tr-4xl"
+                                    />
+                                    <h3 className="text-3xl lg:text-4xl text-[#C8A45C] dark:text-[#D4AF37]" style={{ fontFamily: "Playfair Display, serif" }}>NEW EDEN</h3>
+                                </div>
                                 <p className="text-[#CBD5E1] dark:text-[#94A3B8] text-sm italic mb-4">{text.tagline}</p>
                                 <p className="text-[#9CA3AF] dark:text-[#64748B] text-sm leading-relaxed">{text.description}</p>
                             </div>
