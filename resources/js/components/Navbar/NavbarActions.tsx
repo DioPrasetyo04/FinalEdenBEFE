@@ -1,8 +1,7 @@
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/hooks/useTheme";
 import { AnimatePresence, motion } from "framer-motion";
-import { Moon, Phone, Sun } from "lucide-react";
-import React from "react";
+import { Moon, Sun } from "lucide-react";
 
 const NavbarActions = () => {
     const { language, setLanguage } = useLanguage();
@@ -153,24 +152,6 @@ const NavbarActions = () => {
                 </motion.button>
             </div>
 
-            {/* Divider */}
-            <div className="h-9 w-px bg-[#E5E7EB] dark:bg-[#334155]" />
-
-            {/* Contact CTA Button - Solid Style */}
-            <motion.button
-                className="relative flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white text-sm font-medium rounded-lg overflow-hidden group"
-                whileHover={{
-                    scale: 1.02,
-                    boxShadow: "0 10px 30px -10px rgba(200, 164, 92, 0.4)",
-                }}
-                whileTap={{ scale: 0.98 }}
-            >
-                <motion.div className="absolute inset-0 bg-gradient-to-r from-[#B69449] to-[#C8A45C] dark:from-[#E8C862] dark:to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Phone className="w-4 h-4 relative z-10" />
-                <span className="relative z-10">
-                    {language === "ID" ? "Hubungi Kami" : "Contact Us"}
-                </span>
-            </motion.button>
         </>
     );
 };
