@@ -17,7 +17,7 @@ export function FloatingButtons() {
     };
 
     return (
-        <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-3">
+        <div className="fixed bottom-5 right-5 z-30 flex flex-col gap-3">
             <motion.button
                 onClick={handleWhatsAppClick}
                 className="group relative w-14 h-14 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300"
