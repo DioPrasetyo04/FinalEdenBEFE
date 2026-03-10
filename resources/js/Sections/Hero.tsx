@@ -242,12 +242,14 @@ const Hero = ({ onServiceClick, onContactClick }: HeroProps) => {
                 </motion.div>
             </motion.div>
 
-            {/* Decorative Elements */}
-            <div className="absolute top-1/4 left-10 w-32 h-32 bg-[#C8A45C]/10 dark:bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse"></div>
-            <div
-                className="absolute bottom-1/4 right-10 w-40 h-40 bg-[#C8A45C]/10 dark:bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse"
-                style={{ animationDelay: "1s" }}
-            ></div>
+            {/* Decorative Elements - Wrapped to prevent overflow */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-1/4 left-10 w-32 h-32 bg-[#C8A45C]/10 dark:bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse"></div>
+                <div
+                    className="absolute bottom-1/4 right-10 w-40 h-40 bg-[#C8A45C]/10 dark:bg-[#D4AF37]/10 rounded-full blur-3xl animate-pulse"
+                    style={{ animationDelay: "1s" }}
+                ></div>
+            </div>
         </section>
     );
 };

@@ -32,7 +32,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     }, []);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#0A0F1E]">
+        <div className="min-h-screen bg-white dark:bg-[#0A0F1E] overflow-x-hidden">
             <AnimatePresence mode="wait">
                 {loading && <LoadingScreen key="loading" />}
             </AnimatePresence>
