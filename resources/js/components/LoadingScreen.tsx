@@ -34,8 +34,13 @@ export function LoadingScreen() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="mb-10 text-center"
+                    className="mb-10 text-center flex flex-col items-center"
                 >
+                    <img
+                        src="/assets/image/new-eden.png"
+                        alt="NEW EDEN Logo"
+                        className="w-20 h-20 mb-4 object-cover object-center rounded-tl-4xl rounded-tr-4xl"
+                    />
                     <h1
                         className="text-4xl md:text-5xl font-bold tracking-tight text-[#C8A45C] dark:text-[#D4AF37]"
                         style={{ fontFamily: "Playfair Display, serif" }}
