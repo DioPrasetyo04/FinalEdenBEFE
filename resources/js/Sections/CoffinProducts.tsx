@@ -1,29 +1,17 @@
 import { motion } from "motion/react";
-import { ArrowRight, Package } from "lucide-react";
+import { Package } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { contentProductCoffin, productCoffins } from "@/data/Datas";
 import CardCoffin from "@/components/Coffin/CardCoffin";
 
-interface ProductsProps {
-    onOrderClick: (product: string) => void;
+export interface ProductsProps {
+    onOrderClick: (slug: string) => void;
 }
-
-interface Product {
-    id: string;
-    nameID: string;
-    nameEN: string;
-    category: string;
-    categoryEN: string;
-    priceRange: string;
-    image: string;
-}
-
 export function CoffinProducts({ onOrderClick }: ProductsProps) {
     const { language } = useLanguage();
 
     const text =
         language === "ID" ? contentProductCoffin.ID : contentProductCoffin.EN;
-
     return (
         <section
             id="products"
@@ -68,22 +56,30 @@ export function CoffinProducts({ onOrderClick }: ProductsProps) {
 
                 {/* Product Cards Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                    {productCoffins.map((product, index) => (
-                        <motion.div
-                            key={product.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{
-                                delay: index * 0.1,
-                                duration: 0.6,
-                                ease: [0.22, 1, 0.36, 1],
-                            }}
-                            className="group"
-                        >
-                            <CardCoffin product={product}></CardCoffin>
-                        </motion.div>
-                    ))}
+                    {productCoffins.length > 0 ? (
+                        productCoffins.map((product, index) => (
+                            <motion.div
+                                key={product.id}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{
+                                    delay: index * 0.1,
+                                    duration: 0.6,
+                                    ease: [0.22, 1, 0.36, 1],
+                                }}
+                                className="group"
+                            >
+                                <CardCoffin product={product}></CardCoffin>
+                            </motion.div>
+                        ))
+                    ) : (
+                        <div className="col-span-4 text-center py-16 text-[#6B7280] dark:text-[#CBD5E1]">
+                            {language === "ID"
+                                ? "Belum ada produk peti tersedia."
+                                : "No coffin products available yet."}
+                        </div>
+                    )}
                 </div>
 
                 {/* Bottom CTA */}

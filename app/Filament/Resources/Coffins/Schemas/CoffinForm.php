@@ -31,7 +31,6 @@ class CoffinForm
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->live()
-                            ->disabled()
                             ->readOnly()
                             ->maxLength(255),
 
@@ -94,6 +93,24 @@ class CoffinForm
                         ->getOptionLabelFromRecordUsing(
                             fn($record) => $record->translation?->name ?? $record->slug
                         )
+                        ->createOptionUsing(function (array $data): int {
+                            $translations = $data['translations'] ?? [];
+                            unset($data['translations']);
+                    
+                            $benefit = \App\Models\Benefit::create($data);
+                    
+                            foreach (['id', 'en'] as $locale) {
+                                if (isset($translations[$locale])) {
+                                    $benefit->translations()->create([
+                                        'locale' => $locale,
+                                        'name' => $translations[$locale]['name'] ?? null,
+                                        'description' => $translations[$locale]['description'] ?? null,
+                                    ]);
+                                }
+                            }
+                    
+                            return $benefit->id;
+                        })
                         ->createOptionForm([
                             Section::make('Data Utama')
                                 ->schema([
@@ -102,7 +119,6 @@ class CoffinForm
                                         ->required()
                                         ->unique(ignoreRecord: true)
                                         ->live()
-                                        ->disabled()
                                         ->readOnly()
                                         ->maxLength(255),
                                 ])

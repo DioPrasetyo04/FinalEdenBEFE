@@ -11,6 +11,18 @@ import NavbarMobile from "./NavbarMobile";
 export function Navbar() {
     const { isScrolled } = useScroll();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    function toggleMobileMenu() {
+        setMobileMenuOpen(!mobileMenuOpen);
+    }
+
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+    }, [mobileMenuOpen]);
     return (
         <>
             <motion.nav
@@ -80,7 +92,11 @@ export function Navbar() {
             </motion.nav>
 
             {/* Mobile Menu */}
-            <NavbarMobile></NavbarMobile>
+            {mobileMenuOpen && (
+                <NavbarMobile
+                    toogleMobileMenu={toggleMobileMenu}
+                ></NavbarMobile>
+            )}
         </>
     );
 }

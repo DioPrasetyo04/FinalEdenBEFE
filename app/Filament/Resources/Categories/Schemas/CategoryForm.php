@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Categories\Schemas;
 use App\Models\Category;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -19,12 +20,15 @@ class CategoryForm
                         ->label('Nama Kategori')
                         ->required()
                         ->live(onBlur: true)
-                        ->afterStateUpdated(fn (string $operation, $state, \Filament\Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
+                        ->afterStateUpdated(fn(string $operation, $state, Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
+                        ->afterStateHydrated(fn(string $operation, $state, Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
                         ->maxLength(255),
 
                     TextInput::make('slug')
                         ->label('Slug')
                         ->required()
+                        ->disabled()
+                        ->readOnly()
                         ->unique(ignoreRecord: true)
                         ->maxLength(255),
                 ])

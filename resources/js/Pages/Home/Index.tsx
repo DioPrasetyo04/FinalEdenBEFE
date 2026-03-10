@@ -1,6 +1,3 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { useState, useEffect } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Head } from "@inertiajs/react";
 import Hero from "@/Sections/Hero";
@@ -9,13 +6,62 @@ import { Stats } from "@/Sections/Stats";
 import { Services } from "@/Sections/Service";
 import { CoffinProducts } from "@/Sections/CoffinProducts";
 import { useModal } from "@/hooks/useModal";
-import { ModalProvider } from "@/context/ModalContext";
+import { GallerySection } from "@/Sections/GalerySection";
+import { Testimonials } from "@/Sections/Testimonials";
+import { FAQ } from "@/Sections/FAQ";
+import { OurTeam } from "@/Sections/OurTeam";
+import { About } from "@/Sections/About";
+import { CTA } from "@/Sections/CTA";
+import { Contact } from "@/Sections/Contact";
 
-interface props {
-    language: string;
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
 }
 
-export default function Index({ language }: props) {
+interface GaleryItem {
+    id: number;
+    name: string;
+    photo: string;
+    description: string | null;
+    category: Category | null;
+}
+
+interface CoffinPhoto {
+    id: number;
+    photo: string;
+}
+
+interface CoffinItem {
+    id: number;
+    slug: string;
+    nameID: string | null;
+    nameEN: string | null;
+    descriptionID: string | null;
+    descriptionEN: string | null;
+    photos: CoffinPhoto[];
+    benefits: {
+        id: number;
+        slug: string;
+        name: string | null;
+        description: string | null;
+    }[];
+}
+
+interface Props {
+    language?: string;
+    coffins: CoffinItem[];
+    categories: Category[];
+    galeries: GaleryItem[];
+}
+
+export default function Index({
+    language,
+    coffins,
+    categories,
+    galeries,
+}: Props) {
     const { setSelectedCoffin, setCoffinDetailOpen } = useModal();
 
     const handleServiceClick = () => {
@@ -32,11 +78,20 @@ export default function Index({ language }: props) {
         setSelectedCoffin(casketId);
         setCoffinDetailOpen(true);
     };
+
+    const scrollToContact = () => {
+        const contact = document.getElementById("contact");
+        if (contact) contact.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const handleWhatsAppClick = () => {
+        window.open("https://wa.me/6281290000000", "_blank");
+    };
     return (
         <AppLayout>
             <Head title="Home Page"></Head>
             <Hero
-                language={language}
+                language={language ?? "ID"}
                 onServiceClick={handleServiceClick}
                 onContactClick={handleContactClik}
             ></Hero>
@@ -46,6 +101,28 @@ export default function Index({ language }: props) {
 
             {/* Products Section */}
             <CoffinProducts onOrderClick={handleCasketDetailClick} />
+
+            {/* Gallery Section */}
+            <GallerySection />
+
+            <Testimonials />
+
+            <FAQ />
+
+            {/* Our Team Section */}
+            <OurTeam />
+
+            {/* About Section */}
+            <About />
+
+            {/* CTA Section */}
+            <CTA
+                onContactClick={scrollToContact}
+                onWhatsAppClick={handleWhatsAppClick}
+            />
+
+            {/* Contact Section */}
+            <Contact onWhatsAppClick={handleWhatsAppClick} />
         </AppLayout>
     );
 }

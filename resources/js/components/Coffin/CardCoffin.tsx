@@ -90,8 +90,9 @@ const CardCoffin = ({ product }: CardCoffinProps) => {
 
                 {/* description */}
                 <p className="text-[#6B7280] dark:text-[#CBD5E1] mb-6 text-sm font-medium line-clamp-5">
-                    {product.description}
+                    {language === "ID" ? product.descriptionID : product.descriptionEN}
                 </p>
+
 
                 {/* CTA Button */}
                 <motion.button

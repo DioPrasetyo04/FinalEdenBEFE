@@ -16,7 +16,7 @@
 @layer base {
     html,
     body {
-        @apply min-h-screen bg-[#b69449]/80 dark:bg-[#b69449]/80;
+        /* @apply min-h-screen bg-[#b69449]/80 dark:bg-[#b69449]/80; */
     }
 }
 

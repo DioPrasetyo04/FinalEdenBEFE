@@ -3,18 +3,22 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interface\CoffinRepositoriesInterface;
-use App\Models\Category;
 use App\Models\Coffin;
 
 class CoffinRepositories implements CoffinRepositoriesInterface
 {
     public function index(): array
     {
-        return Coffin::all()->with(['translations', 'translation', 'photos'])->toArray();
+        return Coffin::with(['translation', 'translations', 'photos', 'benefitcoffin.translation'])
+            ->where('is_active', true)
+            ->get()
+            ->toArray();
     }
 
-    public function find($slug): ?Coffin
+    public function find(string $slug): ?Coffin
     {
-        return Category::where('slug', $slug)->with(['translations', 'translation', 'photos'])->first();
+        return Coffin::where('slug', $slug)
+            ->with(['translation', 'translations', 'photos', 'benefitcoffin.translation'])
+            ->first();
     }
 }
