@@ -59,7 +59,7 @@ export function Contact() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const inputClass = "w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:outline-none focus:border-[#C8A45C] dark:focus:border-[#D4AF37] focus:ring-4 focus:ring-[#C8A45C]/20 dark:focus:ring-[#D4AF37]/20 transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B]";
+    const inputClass = "w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:outline-none focus:border-[#C8A45C] dark:focus:border-[#D4AF37] transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B]";
 
     return (
         <section id="contact" className="py-24 lg:py-32 bg-gradient-to-b from-[#FAFBFC] to-white dark:from-[#0F172A] dark:to-[#0A0F1E] relative overflow-hidden">
