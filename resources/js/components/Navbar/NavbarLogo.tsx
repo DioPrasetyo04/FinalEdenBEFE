@@ -18,7 +18,7 @@ const NavbarLogo = () => {
                         <img
                             src="/assets/image/new-eden.png"
                             alt="image eden logo"
-                            className="w-[80px] h-[80px] rounded-tl-4xl rounded-tr-4xl p-0"
+                            className="w-12 h-12 rounded-tl-4xl rounded-tr-4xl p-0 object-cover object-center"
                         />
                     </div>
                     <div
