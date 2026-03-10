@@ -1,21 +1,21 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { useState, useEffect } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Head } from "@inertiajs/react";
 import Hero from "@/Sections/Hero";
 import { WhyChooseUs } from "@/Sections/WhyChooseUs";
 import { Stats } from "@/Sections/Stats";
-import { Services } from "@/Sections/Service";
+import { Services } from "@/Sections/Services";
 import { CoffinProducts } from "@/Sections/CoffinProducts";
+import { About } from "@/Sections/About";
+import { Sponsors } from "@/Sections/Sponsors";
+import { Gallery } from "@/Sections/Gallery";
+import { Testimonials } from "@/Sections/Testimonials";
+import { FAQ } from "@/Sections/FAQ";
+import { OurTeam } from "@/Sections/OurTeam";
+import { CTA } from "@/Sections/CTA";
+import { Contact } from "@/Sections/Contact";
 import { useModal } from "@/hooks/useModal";
-import { ModalProvider } from "@/context/ModalContext";
 
-interface props {
-    language: string;
-}
-
-export default function Index({ language }: props) {
+export default function Index() {
     const { setSelectedCoffin, setCoffinDetailOpen } = useModal();
 
     const handleServiceClick = () => {
@@ -23,7 +23,7 @@ export default function Index({ language }: props) {
         if (service) service.scrollIntoView({ behavior: "smooth" });
     };
 
-    const handleContactClik = () => {
+    const handleContactClick = () => {
         const contc = document.getElementById("contact");
         if (contc) contc.scrollIntoView({ behavior: "smooth" });
     };
@@ -32,20 +32,58 @@ export default function Index({ language }: props) {
         setSelectedCoffin(casketId);
         setCoffinDetailOpen(true);
     };
+
+    const handleWhatsAppClick = () => {
+        window.open("https://wa.me/6281234567890", "_blank");
+    };
+
     return (
         <AppLayout>
-            <Head title="Home Page"></Head>
-            <Hero
-                language={language}
-                onServiceClick={handleServiceClick}
-                onContactClick={handleContactClik}
-            ></Hero>
-            <WhyChooseUs></WhyChooseUs>
-            <Stats></Stats>
-            <Services onServiceDetailClick={handleServiceClick}></Services>
+            <Head title="NEW EDEN - Layanan Kedukaan Profesional">
+                <meta name="description" content="NEW EDEN menyediakan layanan kedukaan profesional dengan penuh kasih dan dedikasi. Melayani 24 jam." />
+            </Head>
 
-            {/* Products Section */}
+            {/* Hero Section */}
+            <Hero
+                onServiceClick={handleServiceClick}
+                onContactClick={handleContactClick}
+            />
+
+            {/* Why Choose Us */}
+            <WhyChooseUs />
+
+            {/* Stats Counter */}
+            <Stats />
+
+            {/* Services */}
+            <Services />
+
+            {/* Products */}
             <CoffinProducts onOrderClick={handleCasketDetailClick} />
+
+            {/* About Us */}
+            <About />
+
+            {/* Partners & Sponsors */}
+            <Sponsors />
+
+            {/* Gallery */}
+            <Gallery />
+
+            {/* Testimonials */}
+            <Testimonials />
+
+            {/* FAQ */}
+            <FAQ />
+
+            {/* Our Team */}
+            <OurTeam />
+
+            {/* Call To Action */}
+            <CTA onContactClick={handleContactClick} onWhatsAppClick={handleWhatsAppClick} />
+
+            {/* Contact */}
+            <Contact />
         </AppLayout>
     );
 }
