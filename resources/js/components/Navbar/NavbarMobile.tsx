@@ -4,7 +4,7 @@ import { useScrollToSection } from "@/hooks/Navbar/useScrollToSection";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/hooks/useTheme";
 import { AnimatePresence, motion } from "motion/react";
-import { Bot, Globe, Moon, Phone, Sun, X } from "lucide-react";
+import { Bot, Globe, Moon, Sun, X } from "lucide-react";
 
 
 interface NavbarMobileProps {
@@ -176,21 +176,6 @@ const NavbarMobile = ({ mobileMenuOpen, setMobileMenuOpen }: NavbarMobileProps) 
                                         : "Chat with AI"}
                                 </motion.button>
 
-                                {/* Contact CTA Button */}
-                                <motion.button
-                                    onClick={() => {
-                                        // onContactClick();
-                                        alert("chatWhatsapp");
-                                        setMobileMenuOpen(false);
-                                    }}
-                                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white text-sm font-medium rounded-lg"
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <Phone className="w-4 h-4" />
-                                    {language === "ID"
-                                        ? "Hubungi Kami"
-                                        : "Contact Us"}
-                                </motion.button>
                             </div>
                         </div>
                     </motion.div>
