@@ -2,30 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ArrowRight } from "lucide-react";
-import { useAppActions } from "@/hooks/useAppActions";
 
-interface CardCoffinProps {
-    coffin: {
-        id: number;
-        slug: string;
-        nameID: string;
-        nameEN: string;
-        descriptionID: string;
-        descriptionEN: string;
-        photos: {
-            id: number;
-            photo: string;
-        }[];
-        benefits: {
-            id: number;
-            nameID: string;
-            nameEN: string;
-        }[];
-    },
-    onCasketDetailClick: (id: string) => void;
-}
 
-const CardCoffin = ({ coffin, onCasketDetailClick }: CardCoffinProps) => {
+const CardCoffin = ({
+    coffin,
+    onCasketDetailClick,
+}: {
+    coffin: any;
+    onCasketDetailClick: (slug: string) => void;
+}) => {
     const { language } = useLanguage();
     return (
         <motion.div
@@ -112,7 +97,7 @@ const CardCoffin = ({ coffin, onCasketDetailClick }: CardCoffinProps) => {
 
                 {/* CTA Button */}
                 <motion.button
-                    onClick={() =>  onCasketDetailClick(coffin.slug)}
+                    onClick={() => onCasketDetailClick(coffin.slug)}
                     className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white rounded-xl font-medium text-sm shadow-lg group-hover:shadow-xl transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
