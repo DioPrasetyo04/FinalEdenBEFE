@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+
+const WHATSAPP_NUMBER = "6281212770778";
 
 interface OrderFormProps {
     isOpen: boolean;
@@ -12,6 +14,20 @@ interface OrderFormProps {
 export function OrderForm({ isOpen, onClose, selectedItem }: OrderFormProps) {
     const { language } = useLanguage();
     const [formData, setFormData] = useState({ name: "", phone: "", service: selectedItem || "", message: "" });
+
+    // Sync selectedItem when it changes
+    useEffect(() => {
+        if (selectedItem) {
+            setFormData((prev) => ({ ...prev, service: selectedItem }));
+        }
+    }, [selectedItem]);
+
+    // Reset form when modal opens
+    useEffect(() => {
+        if (isOpen) {
+            setFormData({ name: "", phone: "", service: selectedItem || "", message: "" });
+        }
+    }, [isOpen]);
 
     const content = {
         ID: {
@@ -33,7 +49,7 @@ export function OrderForm({ isOpen, onClose, selectedItem }: OrderFormProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const message = `Halo NEW EDEN,\n\nNama: ${formData.name}\nNo. WhatsApp: ${formData.phone}\nLayanan: ${formData.service}\n\nPesan:\n${formData.message}`.trim();
-        const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
         onClose();
     };

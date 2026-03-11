@@ -49,8 +49,13 @@ export function Contact() {
         { icon: Clock, label: text.hours, value: text.hoursValue, link: null as string | null },
     ];
 
+    const WHATSAPP_NUMBER = "6281212770778";
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const waMessage = `Halo NEW EDEN,\n\nNama: ${formData.name}\nEmail: ${formData.email}\nNo. Telepon: ${formData.phone}\nSubjek: ${formData.subject}\n\nPesan:\n${formData.message}`.trim();
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+        window.open(whatsappUrl, "_blank");
         setSubmitted(true);
         setTimeout(() => { setSubmitted(false); setFormData({ name: "", email: "", phone: "", subject: "", message: "" }); }, 3000);
     };
