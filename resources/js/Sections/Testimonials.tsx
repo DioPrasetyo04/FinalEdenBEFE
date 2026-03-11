@@ -13,6 +13,8 @@ interface Testimonial {
 }
 
 export function Testimonials() {
+    const { language } = useLanguage();
+
     const testimonials: Testimonial[] = [
         {
             nameID: "Bapak Susanto",
@@ -55,17 +57,11 @@ export function Testimonials() {
         },
     };
 
-    const { language } = useLanguage();
-
     const text = language === "ID" ? content.ID : content.EN;
 
     return (
-        <section
-            id="testimonials"
-            className="py-20 bg-gradient-to-br from-white via-[#DCEAF5]/30 to-white dark:from-[#0F172A] dark:via-[#1E293B]/50 dark:to-[#0F172A]"
-        >
+        <section className="py-20 bg-gradient-to-br from-white via-[#DCEAF5]/30 to-white dark:from-[#0F172A] dark:via-[#1E293B]/50 dark:to-[#0F172A]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +80,6 @@ export function Testimonials() {
                     </p>
                 </motion.div>
 
-                {/* Testimonials Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (
                         <motion.div
@@ -96,12 +91,9 @@ export function Testimonials() {
                             whileHover={{ y: -10 }}
                             className="bg-white dark:bg-[#1E293B] rounded-2xl p-8 shadow-lg border border-[#E5E7EB] dark:border-[#334155] relative"
                         >
-                            {/* Quote Icon */}
                             <div className="absolute top-6 right-6 opacity-10">
                                 <Quote className="w-16 h-16 text-[#C8A45C] dark:text-[#D4AF37]" />
                             </div>
-
-                            {/* Rating */}
                             <div className="flex gap-1 mb-4">
                                 {[...Array(testimonial.rating)].map((_, i) => (
                                     <Star
@@ -110,8 +102,6 @@ export function Testimonials() {
                                     />
                                 ))}
                             </div>
-
-                            {/* Text */}
                             <p className="text-[#6B7280] dark:text-[#CBD5E1] mb-6 leading-relaxed relative z-10">
                                 "
                                 {language === "ID"
@@ -119,8 +109,6 @@ export function Testimonials() {
                                     : testimonial.textEN}
                                 "
                             </p>
-
-                            {/* Author */}
                             <div className="pt-4 border-t border-[#E5E7EB] dark:border-[#334155]">
                                 <p className="font-semibold text-[#1F2937] dark:text-[#F9FAFB]">
                                     {language === "ID"

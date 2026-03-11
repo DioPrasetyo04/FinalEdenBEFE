@@ -8,6 +8,8 @@ interface CTAProps {
 }
 
 export function CTA({ onContactClick, onWhatsAppClick }: CTAProps) {
+    const { language } = useLanguage();
+
     const content = {
         ID: {
             title: "Butuh Bantuan Segera?",
@@ -24,8 +26,6 @@ export function CTA({ onContactClick, onWhatsAppClick }: CTAProps) {
             btnWA: "WhatsApp Chat",
         },
     };
-
-    const { language } = useLanguage();
 
     const text = language === "ID" ? content.ID : content.EN;
 
@@ -45,20 +45,16 @@ export function CTA({ onContactClick, onWhatsAppClick }: CTAProps) {
                     transition={{ duration: 0.6 }}
                     className="text-center space-y-8"
                 >
-                    {/* Title */}
                     <h2
                         className="text-4xl md:text-5xl text-white"
                         style={{ fontFamily: "Playfair Display, serif" }}
                     >
                         {text.title}
                     </h2>
-
-                    {/* Subtitle */}
                     <p className="text-xl text-white/90 max-w-2xl mx-auto">
                         {text.subtitle}
                     </p>
 
-                    {/* Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
                         <motion.button
                             onClick={onContactClick}
@@ -69,7 +65,6 @@ export function CTA({ onContactClick, onWhatsAppClick }: CTAProps) {
                             <Phone className="w-6 h-6" />
                             {text.btnCall}
                         </motion.button>
-
                         <motion.button
                             onClick={onWhatsAppClick}
                             whileHover={{ scale: 1.05, y: -2 }}

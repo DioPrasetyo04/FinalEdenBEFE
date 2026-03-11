@@ -6,10 +6,10 @@ import { Award } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface SponsorProps {
-    sponsors: any[];
+    mitras: any[];
 }
 
-export function Sponsors({ sponsors = [] }: SponsorProps) {
+export function Sponsors({ mitras: sponsors }: SponsorProps) {
     const { language } = useLanguage();
 
     if (!sponsors || sponsors.length === 0) return null;
@@ -36,7 +36,7 @@ export function Sponsors({ sponsors = [] }: SponsorProps) {
         >
             {/* Background Decoration */}
             <div className="absolute top-0 left-0 w-96 h-96 bg-[#C8A45C]/5 dark:bg-[#D4AF37]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-            
+
             <div className="relative z-10 w-full overflow-hidden">
                 {/* Section Header */}
                 <motion.div

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun, Globe, Phone, Bot } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { navItems } from "@/data/Datas";
 import NavbarDekstop from "./NavbarDekstop";
@@ -12,10 +12,6 @@ export function Navbar() {
     const { isScrolled } = useScroll();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    function toggleMobileMenu() {
-        setMobileMenuOpen(!mobileMenuOpen);
-    }
-
     useEffect(() => {
         if (mobileMenuOpen) {
             document.body.classList.add("overflow-hidden");
@@ -23,13 +19,26 @@ export function Navbar() {
             document.body.classList.remove("overflow-hidden");
         }
     }, [mobileMenuOpen]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                setMobileMenuOpen(false);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     return (
         <>
             <motion.nav
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+                className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
+                    mobileMenuOpen ? "z-30" : "z-50"
+                } ${
                     isScrolled
                         ? "bg-white/90 dark:bg-[#0A0F1E]/90 backdrop-blur-xl shadow-lg border-b border-[#E5E7EB]/50 dark:border-[#334155]/50"
                         : "bg-tranparent"
@@ -92,11 +101,7 @@ export function Navbar() {
             </motion.nav>
 
             {/* Mobile Menu */}
-            {mobileMenuOpen && (
-                <NavbarMobile
-                    toogleMobileMenu={toggleMobileMenu}
-                ></NavbarMobile>
-            )}
+            <NavbarMobile mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
         </>
     );
 }

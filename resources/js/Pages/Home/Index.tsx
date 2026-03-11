@@ -3,17 +3,22 @@ import { Head } from "@inertiajs/react";
 import Hero from "@/Sections/Hero";
 import { WhyChooseUs } from "@/Sections/WhyChooseUs";
 import { Stats } from "@/Sections/Stats";
-import { Services } from "@/Sections/Service";
+import { Services } from "@/Sections/Services";
 import { CoffinProducts } from "@/Sections/CoffinProducts";
-import { useModal } from "@/hooks/useModal";
-import { GallerySection } from "@/Sections/GalerySection";
+import { About } from "@/Sections/About";
+import { Gallery } from "@/Sections/Gallery";
 import { Testimonials } from "@/Sections/Testimonials";
 import { FAQ } from "@/Sections/FAQ";
 import { OurTeam } from "@/Sections/OurTeam";
-import { About } from "@/Sections/About";
 import { CTA } from "@/Sections/CTA";
 import { Contact } from "@/Sections/Contact";
-import { Sponsors } from "@/Sections/Sponsor";
+import { useModal } from "@/hooks/useModal";
+import { useAppActions } from "@/hooks/useAppActions";
+import { GallerySection } from "@/Sections/GalerySection";
+import { Sponsors } from "@/Sections/Sponsors";
+import { OrderForm } from "@/components/OrderForm";
+import { ServiceDetail } from "@/components/ServiceDetail";
+import { CoffinDetail } from "@/components/CoffinDetail";
 
 interface Category {
     id: number;
@@ -50,7 +55,7 @@ interface CoffinItem {
     }[];
 }
 
-interface Sponsor {
+interface Mitra {
     id: number;
     name: string;
     description: string;
@@ -76,7 +81,7 @@ interface Props {
     coffins: CoffinItem[];
     categories: Category[];
     galeries: GaleryItem[];
-    sponsors: Sponsor[];
+    mitras: Mitra[];
     teams: Team[];
     team_stats: Stat;
 }
@@ -85,53 +90,53 @@ export default function Index({
     coffins,
     categories,
     galeries,
-    sponsors,
+    mitras,
     teams,
     team_stats,
 }: Props) {
-    const { setSelectedCoffin, setCoffinDetailOpen } = useModal();
+    const { 
+        orderFormOpen, 
+        setOrderFormOpen, 
+        serviceDetailOpen, 
+        setServiceDetailOpen, 
+        selectedService, 
+        selectedItem,
+        coffinDetailOpen,
+        setCoffinDetailOpen,
+        selectedCoffin,
+    } = useModal();
 
-    const handleServiceClick = () => {
-        const service = document.getElementById("services");
-        if (service) service.scrollIntoView({ behavior: "smooth" });
-    };
+    const { 
+        scrollToServices, 
+        scrollToContact, 
+        handleCasketDetailClick, 
+        handleWhatsAppClick,
+        handleOrderFromCasketDetail
+    } = useAppActions();
 
-    const handleContactClik = () => {
-        const contc = document.getElementById("contact");
-        if (contc) contc.scrollIntoView({ behavior: "smooth" });
-    };
-
-    const handleCasketDetailClick = (casketId: string) => {
-        setSelectedCoffin(casketId);
-        setCoffinDetailOpen(true);
-    };
-
-    const scrollToContact = () => {
-        const contact = document.getElementById("contact");
-        if (contact) contact.scrollIntoView({ behavior: "smooth" });
-    };
-
-    const handleWhatsAppClick = () => {
-        window.open("https://wa.me/6281290000000", "_blank");
-    };
     return (
         <AppLayout>
-            <Head title="Home Page"></Head>
+            <Head title="NEW EDEN - Layanan Kedukaan Profesional">
+                <meta
+                    name="description"
+                    content="NEW EDEN menyediakan layanan kedukaan profesional dengan penuh kasih dan dedikasi. Melayani 24 jam."
+                />
+            </Head>
             <Hero
-                onServiceClick={handleServiceClick}
-                onContactClick={handleContactClik}
+                onServiceClick={scrollToServices}
+                onContactClick={scrollToContact}
             ></Hero>
             <WhyChooseUs></WhyChooseUs>
             <Stats></Stats>
-            <Services onServiceDetailClick={handleServiceClick}></Services>
+            <Services></Services>
 
             {/* Products Section */}
             <CoffinProducts
+                onCasketDetailClick={handleCasketDetailClick}
                 coffins={coffins}
-                onOrderClick={handleCasketDetailClick}
             />
 
-            <Sponsors sponsors={sponsors} />
+            <Sponsors mitras={mitras} />
 
             {/* Gallery Section */}
             <GallerySection galeries={galeries} categories={categories} />
@@ -153,7 +158,26 @@ export default function Index({
             />
 
             {/* Contact Section */}
-            <Contact onWhatsAppClick={handleWhatsAppClick} />
+            <Contact />
+
+            <OrderForm
+                isOpen={orderFormOpen}
+                onClose={() => setOrderFormOpen(false)}
+                selectedItem={selectedItem}
+            />
+            <ServiceDetail
+                isOpen={serviceDetailOpen}
+                onClose={() => setServiceDetailOpen(false)}
+                serviceId={selectedService}
+                onOrderClick={() => setOrderFormOpen(true)}
+            />
+            <CoffinDetail
+                isOpen={coffinDetailOpen}
+                onClose={() => setCoffinDetailOpen(false)}
+                coffinSlug={selectedCoffin}
+                coffins={coffins}
+                onOrderClick={handleOrderFromCasketDetail}
+            />
         </AppLayout>
     );
 }

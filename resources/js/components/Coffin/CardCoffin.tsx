@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ArrowRight } from "lucide-react";
-import { router, usePage } from "@inertiajs/react";
+import { useAppActions } from "@/hooks/useAppActions";
 
 interface CardCoffinProps {
     coffin: {
@@ -21,15 +21,12 @@ interface CardCoffinProps {
             nameID: string;
             nameEN: string;
         }[];
-    };
+    },
+    onCasketDetailClick: (id: string) => void;
 }
 
-const CardCoffin = ({ coffin }: CardCoffinProps) => {
+const CardCoffin = ({ coffin, onCasketDetailClick }: CardCoffinProps) => {
     const { language } = useLanguage();
-
-    function detailCoffin(slug: string) {
-        router.get(`/coffins/${slug}`);
-    }
     return (
         <motion.div
             whileHover={{ y: -12 }}
@@ -42,7 +39,7 @@ const CardCoffin = ({ coffin }: CardCoffinProps) => {
                 boxShadow:
                     "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
             }}
-            onClick={() => detailCoffin(coffin.slug)}
+            onClick={() => onCasketDetailClick(coffin.slug)}
         >
             {/* Hover Shadow */}
             <div
@@ -115,7 +112,7 @@ const CardCoffin = ({ coffin }: CardCoffinProps) => {
 
                 {/* CTA Button */}
                 <motion.button
-                    onClick={() => detailCoffin(coffin.slug)}
+                    onClick={() =>  onCasketDetailClick(coffin.slug)}
                     className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white rounded-xl font-medium text-sm shadow-lg group-hover:shadow-xl transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

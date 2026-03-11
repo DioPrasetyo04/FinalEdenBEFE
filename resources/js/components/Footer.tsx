@@ -12,7 +12,9 @@ import {
 import { useLanguage } from "@/hooks/useLanguage";
 import { useScrollToSection } from "@/hooks/Navbar/useScrollToSection";
 
-export function Footer() {
+export default function Footer() {
+    const { language } = useLanguage();
+
     const content = {
         ID: {
             tagline: "Hadir Untuk Menguatkan",
@@ -66,21 +68,13 @@ export function Footer() {
         },
     };
 
-    const { language } = useLanguage();
-
     const text = language === "ID" ? content.ID : content.EN;
 
-    const { scrollToSection } = useScrollToSection();
-
-    function handleScrollToSection(id: string) {
-        scrollToSection(id);
-    }
-
     const socialLinks = [
-        { icon: Facebook, href: "#", label: "Facebook", color: "#1877F2" },
-        { icon: Instagram, href: "#", label: "Instagram", color: "#E4405F" },
-        { icon: Twitter, href: "#", label: "Twitter", color: "#1DA1F2" },
-        { icon: Youtube, href: "#", label: "Youtube", color: "#FF0000" },
+        { icon: Facebook, href: "#", label: "Facebook" },
+        { icon: Instagram, href: "#", label: "Instagram" },
+        { icon: Twitter, href: "#", label: "Twitter" },
+        { icon: Youtube, href: "#", label: "Youtube" },
     ];
 
     const contactInfo = [
@@ -88,6 +82,12 @@ export function Footer() {
         { icon: Mail, text: "info@neweden.sch.id" },
         { icon: MapPin, text: "Jakarta Pusat, DKI Jakarta" },
     ];
+
+    const { scrollToSection } = useScrollToSection();
+
+    function handleScrollToSection(id: string) {
+        scrollToSection(id);
+    }
 
     return (
         <footer className="bg-gradient-to-b from-[#111827] to-[#0A0F1E] dark:from-[#0F172A] dark:to-[#0A0F1E] text-white relative overflow-hidden">

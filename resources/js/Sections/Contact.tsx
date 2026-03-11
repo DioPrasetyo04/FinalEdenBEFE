@@ -7,16 +7,14 @@ import {
     Clock,
     Send,
     Check,
-    Map,
 } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useAppActions } from "@/hooks/useAppActions";
 
-interface ContactProps {
-    onWhatsAppClick?: () => void;
-}
-
-export function Contact({ onWhatsAppClick }: ContactProps) {
+export function Contact() {
+    const { language } = useLanguage();
+    const { handleContactSubmit } = useAppActions();
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -24,11 +22,8 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
         subject: "",
         message: "",
     });
-
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [submitted, setSubmitted] = useState(false);
-
-    const { language } = useLanguage();
 
     const content = {
         ID: {
@@ -57,7 +52,6 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
             formMessage: "Pesan",
             formMessagePlaceholder: "Tuliskan pesan Anda di sini...",
             btnSend: "Kirim Pesan",
-            waBtn: "Chat WhatsApp",
             mapBtn: "Lihat Lokasi di Maps",
             successTitle: "Pesan Terkirim!",
             successMessage:
@@ -89,7 +83,6 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
             formMessage: "Message",
             formMessagePlaceholder: "Tell us how we can help...",
             btnSend: "Send Message",
-            waBtn: "WhatsApp Chat",
             mapBtn: "View Location on Maps",
             successTitle: "Message Sent!",
             successMessage:
@@ -122,13 +115,15 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
             icon: Clock,
             label: text.hours,
             value: text.hoursValue,
-            link: null,
+            link: null as string | null,
         },
     ];
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate form submission
+        
+        handleContactSubmit(formData);
+        
         setSubmitted(true);
         setTimeout(() => {
             setSubmitted(false);
@@ -147,23 +142,21 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
         >,
     ) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
+    const inputClass =
+        "w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:outline-none focus:border-[#C8A45C] dark:focus:border-[#D4AF37] transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B]";
 
     return (
         <section
             id="contact"
             className="py-24 lg:py-32 bg-gradient-to-b from-[#FAFBFC] to-white dark:from-[#0F172A] dark:to-[#0A0F1E] relative overflow-hidden"
         >
-            {/* Background Decoration */}
             <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#C8A45C]/5 dark:bg-[#D4AF37]/5 rounded-full blur-3xl"></div>
             <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-[#C8A45C]/5 dark:bg-[#D4AF37]/5 rounded-full blur-3xl"></div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -181,7 +174,6 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                         <MessageCircle className="w-3.5 h-3.5" />
                         {text.badge}
                     </motion.div>
-
                     <h2
                         className="text-4xl md:text-5xl lg:text-6xl text-[#111827] dark:text-[#F9FAFB] mb-6 tracking-tight"
                         style={{ fontFamily: "Playfair Display, serif" }}
@@ -194,7 +186,6 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                 </motion.div>
 
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-                    {/* Left Column - Contact Info Cards */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -254,28 +245,26 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                             </motion.div>
                         ))}
 
-                        {/* WhatsApp Quick Action */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.4, duration: 0.6 }}
+                            className="w-full h-80 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-[#1E293B]"
                         >
-                            <motion.a
-                                href="https://maps.google.com/maps?q=Jl.+Tugu+Cibogo+No.+123,+Jakarta+Pusat,+DKI+Jakarta+10350"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full flex items-center justify-center gap-3 px-8 py-5 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                                whileHover={{ scale: 1.02, y: -4 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <Map className="w-6 h-6" />
-                                <span className="text-lg">{text.mapBtn}</span>
-                            </motion.a>
+                            <iframe 
+                                src={`https://maps.google.com/maps?q=${encodeURIComponent(text.addressValue)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                                width="100%" 
+                                height="100%" 
+                                style={{ border: 0 }} 
+                                allowFullScreen={true} 
+                                loading="lazy" 
+                                referrerPolicy="no-referrer-when-downgrade"
+                                title="Google Maps"
+                            ></iframe>
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Column - Contact Form */}
                     <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -297,7 +286,6 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                     onSubmit={handleSubmit}
                                     className="space-y-6"
                                 >
-                                    {/* Name Field */}
                                     <div className="space-y-2">
                                         <label
                                             htmlFor="name"
@@ -330,14 +318,12 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                                     text.formNamePlaceholder
                                                 }
                                                 required
-                                                className="w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:border-[#C8A45C] dark:focus:border-[#D4AF37] focus:ring-4 focus:ring-[#C8A45C]/10 dark:focus:ring-[#D4AF37]/10 transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B]"
+                                                className={inputClass}
                                             />
                                         </motion.div>
                                     </div>
 
-                                    {/* Email and Phone Row */}
                                     <div className="grid sm:grid-cols-2 gap-6">
-                                        {/* Email Field */}
                                         <div className="space-y-2">
                                             <label
                                                 htmlFor="email"
@@ -370,12 +356,10 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                                         text.formEmailPlaceholder
                                                     }
                                                     required
-                                                    className="w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:border-[#C8A45C] dark:focus:border-[#D4AF37] focus:ring-4 focus:ring-[#C8A45C]/10 dark:focus:ring-[#D4AF37]/10 transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B]"
+                                                    className={inputClass}
                                                 />
                                             </motion.div>
                                         </div>
-
-                                        {/* Phone Field */}
                                         <div className="space-y-2">
                                             <label
                                                 htmlFor="phone"
@@ -408,13 +392,12 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                                         text.formPhonePlaceholder
                                                     }
                                                     required
-                                                    className="w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:border-[#C8A45C] dark:focus:border-[#D4AF37] focus:ring-4 focus:ring-[#C8A45C]/10 dark:focus:ring-[#D4AF37]/10 transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B]"
+                                                    className={inputClass}
                                                 />
                                             </motion.div>
                                         </div>
                                     </div>
 
-                                    {/* Subject Field */}
                                     <div className="space-y-2">
                                         <label
                                             htmlFor="subject"
@@ -443,7 +426,7 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                                     setFocusedField(null)
                                                 }
                                                 required
-                                                className="w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:border-[#C8A45C] dark:focus:border-[#D4AF37] focus:ring-4 focus:ring-[#C8A45C]/10 dark:focus:ring-[#D4AF37]/10 transition-all duration-300 text-[#111827] dark:text-[#F9FAFB]"
+                                                className={inputClass}
                                             >
                                                 <option value="">
                                                     {
@@ -474,7 +457,6 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                         </motion.div>
                                     </div>
 
-                                    {/* Message Field */}
                                     <div className="space-y-2">
                                         <label
                                             htmlFor="message"
@@ -507,12 +489,11 @@ export function Contact({ onWhatsAppClick }: ContactProps) {
                                                 }
                                                 rows={5}
                                                 required
-                                                className="w-full px-4 py-3.5 bg-[#F9FAFB] dark:bg-[#0F172A] border-2 border-[#E5E7EB] dark:border-[#334155] rounded-xl focus:border-[#C8A45C] dark:focus:border-[#D4AF37] focus:ring-4 focus:ring-[#C8A45C]/10 dark:focus:ring-[#D4AF37]/10 transition-all duration-300 text-[#111827] dark:text-[#F9FAFB] placeholder:text-[#9CA3AF] dark:placeholder:text-[#64748B] resize-none"
+                                                className={`${inputClass} resize-none`}
                                             />
                                         </motion.div>
                                     </div>
 
-                                    {/* Submit Button */}
                                     <motion.button
                                         type="submit"
                                         className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"

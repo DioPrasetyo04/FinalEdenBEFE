@@ -5,10 +5,10 @@ import { contentProductCoffin, productCoffins } from "@/data/Datas";
 import CardCoffin from "@/components/Coffin/CardCoffin";
 
 export interface ProductsProps {
-    onOrderClick: (slug: string) => void;
+    onCasketDetailClick: (slug: string) => void;
     coffins: any;
 }
-export function CoffinProducts({ onOrderClick, coffins }: ProductsProps) {
+export function CoffinProducts({ onCasketDetailClick, coffins }: ProductsProps) {
     const { language } = useLanguage();
 
     const text =
@@ -71,7 +71,10 @@ export function CoffinProducts({ onOrderClick, coffins }: ProductsProps) {
                                 }}
                                 className="group"
                             >
-                                <CardCoffin coffin={coffin}></CardCoffin>
+                                <CardCoffin
+                                    onCasketDetailClick={onCasketDetailClick}
+                                    coffin={coffin}
+                                ></CardCoffin>
                             </motion.div>
                         ))
                     ) : (

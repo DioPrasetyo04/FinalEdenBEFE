@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export function About() {
+    const { language } = useLanguage();
     const [activeTab, setActiveTab] = useState<"visi" | "misi">("misi");
 
     const content = {
@@ -81,8 +82,6 @@ export function About() {
         },
     };
 
-    const { language } = useLanguage();
-
     const text = language === "ID" ? content.ID : content.EN;
 
     return (
@@ -91,7 +90,6 @@ export function About() {
             className="py-20 bg-gradient-to-br from-[#DCEAF5] via-white to-[#F9FAFB] dark:from-[#1E293B] dark:via-[#0F172A] dark:to-[#1E293B]"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -113,9 +111,7 @@ export function About() {
                     </p>
                 </motion.div>
 
-                {/* Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-                    {/* Image */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -134,7 +130,6 @@ export function About() {
                         <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#C8A45C] dark:bg-[#D4AF37] rounded-2xl opacity-20 blur-2xl"></div>
                     </motion.div>
 
-                    {/* Text Content */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -146,17 +141,12 @@ export function About() {
                             {text.description}
                         </p>
 
-                        {/* Toggle Button */}
                         <div className="flex justify-center gap-2 p-1 bg-[#F9FAFB] dark:bg-[#0F172A] rounded-lg border border-[#E5E7EB] dark:border-[#334155]">
                             <motion.button
                                 onClick={() => setActiveTab("visi")}
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className={`flex-1 px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                                    activeTab === "visi"
-                                        ? "bg-[#C8A45C] dark:bg-[#D4AF37] text-white shadow-lg"
-                                        : "text-[#6B7280] dark:text-[#CBD5E1] hover:text-[#C8A45C] dark:hover:text-[#D4AF37]"
-                                }`}
+                                className={`flex-1 px-6 py-3 rounded-md font-medium transition-all duration-300 ${activeTab === "visi" ? "bg-[#C8A45C] dark:bg-[#D4AF37] text-white shadow-lg" : "text-[#6B7280] dark:text-[#CBD5E1] hover:text-[#C8A45C] dark:hover:text-[#D4AF37]"}`}
                             >
                                 {text.visiLabel}
                             </motion.button>
@@ -164,17 +154,12 @@ export function About() {
                                 onClick={() => setActiveTab("misi")}
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className={`flex-1 px-6 py-3 rounded-md font-medium transition-all duration-300 ${
-                                    activeTab === "misi"
-                                        ? "bg-[#C8A45C] dark:bg-[#D4AF37] text-white shadow-lg"
-                                        : "text-[#6B7280] dark:text-[#CBD5E1] hover:text-[#C8A45C] dark:hover:text-[#D4AF37]"
-                                }`}
+                                className={`flex-1 px-6 py-3 rounded-md font-medium transition-all duration-300 ${activeTab === "misi" ? "bg-[#C8A45C] dark:bg-[#D4AF37] text-white shadow-lg" : "text-[#6B7280] dark:text-[#CBD5E1] hover:text-[#C8A45C] dark:hover:text-[#D4AF37]"}`}
                             >
                                 {text.misiLabel}
                             </motion.button>
                         </div>
 
-                        {/* Content Box with Animation */}
                         <motion.div
                             key={activeTab}
                             initial={{ opacity: 0, y: 20 }}
@@ -202,14 +187,7 @@ export function About() {
                     </motion.div>
                 </div>
 
-                {/* Values Grid */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {text.values.map((value, index) => (
                         <motion.div
                             key={index}
@@ -227,22 +205,18 @@ export function About() {
                             >
                                 <value.icon className="w-7 h-7 text-white" />
                             </motion.div>
-
                             <h4
                                 className="text-xl text-[#1F2937] dark:text-[#F9FAFB] mb-2"
-                                style={{
-                                    fontFamily: "Playfair Display, serif",
-                                }}
+                                style={{ fontFamily: "Playfair Display, serif" }}
                             >
                                 {value.title}
                             </h4>
-
                             <p className="text-sm text-[#6B7280] dark:text-[#CBD5E1]">
                                 {value.desc}
                             </p>
                         </motion.div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

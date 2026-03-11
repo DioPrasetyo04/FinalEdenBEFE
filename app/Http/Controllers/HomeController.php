@@ -41,17 +41,17 @@ class HomeController extends Controller
         ]);
     }
 
-    public function show(string $slug): Response
-    {
-        $coffin = $this->coffinService->findBySlug($slug);
+    // public function show(string $slug): Response
+    // {
+    //     $coffin = $this->coffinService->findBySlug($slug);
 
-        if (!$coffin) {
-            return Inertia::render('Errors/NotFound', [
-                'type'    => 'coffin',
-                'message' => 'Peti jenazah dengan slug "' . $slug . '" tidak ditemukan.',
-            ]);
-        }
+    //     if (!$coffin) {
+    //         return Inertia::render('Errors/NotFound', [
+    //             'type'    => 'coffin',
+    //             'message' => 'Peti jenazah dengan slug "' . $slug . '" tidak ditemukan.',
+    //         ]);
+    //     }
 
-        return Inertia::render('Coffin/Show', compact('coffin'));
-    }
+    //     return Inertia::render('Coffin/Show', compact('coffin'));
+    // }
 }
