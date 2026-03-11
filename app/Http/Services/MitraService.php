@@ -22,7 +22,7 @@ class MitraService implements MitraServiceInterface
         $words    = explode(' ', trim($mitra['name']));
         $initials = strtoupper(
             (strlen($words[0]) > 0 ? $words[0][0] : '') .
-            (isset($words[1]) && strlen($words[1]) > 0 ? $words[1][0] : '')
+                (isset($words[1]) && strlen($words[1]) > 0 ? $words[1][0] : '')
         );
 
         return [

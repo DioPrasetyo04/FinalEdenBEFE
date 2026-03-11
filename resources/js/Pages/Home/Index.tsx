@@ -13,6 +13,7 @@ import { OurTeam } from "@/Sections/OurTeam";
 import { About } from "@/Sections/About";
 import { CTA } from "@/Sections/CTA";
 import { Contact } from "@/Sections/Contact";
+import { Sponsors } from "@/Sections/Sponsor";
 
 interface Category {
     id: number;
@@ -49,18 +50,44 @@ interface CoffinItem {
     }[];
 }
 
+interface Sponsor {
+    id: number;
+    name: string;
+    description: string;
+    photo: string;
+}
+
+interface Team {
+    id: number;
+    name: string;
+    email: string;
+    phone: string | null;
+    photo: string | null;
+    job_title: string;
+}
+
+interface Stat {
+    struktur_pengelola: number;
+    editor: number;
+    total_staff: number;
+}
+
 interface Props {
-    language?: string;
     coffins: CoffinItem[];
     categories: Category[];
     galeries: GaleryItem[];
+    sponsors: Sponsor[];
+    teams: Team[];
+    team_stats: Stat;
 }
 
 export default function Index({
-    language,
     coffins,
     categories,
     galeries,
+    sponsors,
+    teams,
+    team_stats,
 }: Props) {
     const { setSelectedCoffin, setCoffinDetailOpen } = useModal();
 
@@ -91,7 +118,6 @@ export default function Index({
         <AppLayout>
             <Head title="Home Page"></Head>
             <Hero
-                language={language ?? "ID"}
                 onServiceClick={handleServiceClick}
                 onContactClick={handleContactClik}
             ></Hero>
@@ -100,17 +126,22 @@ export default function Index({
             <Services onServiceDetailClick={handleServiceClick}></Services>
 
             {/* Products Section */}
-            <CoffinProducts onOrderClick={handleCasketDetailClick} />
+            <CoffinProducts
+                coffins={coffins}
+                onOrderClick={handleCasketDetailClick}
+            />
+
+            <Sponsors sponsors={sponsors} />
 
             {/* Gallery Section */}
-            <GallerySection />
+            <GallerySection galeries={galeries} categories={categories} />
 
             <Testimonials />
 
             <FAQ />
 
             {/* Our Team Section */}
-            <OurTeam />
+            <OurTeam teams={teams} stats={team_stats} />
 
             {/* About Section */}
             <About />

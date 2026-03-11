@@ -2,13 +2,34 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ArrowRight } from "lucide-react";
+import { router, usePage } from "@inertiajs/react";
 
 interface CardCoffinProps {
-    product: any;
+    coffin: {
+        id: number;
+        slug: string;
+        nameID: string;
+        nameEN: string;
+        descriptionID: string;
+        descriptionEN: string;
+        photos: {
+            id: number;
+            photo: string;
+        }[];
+        benefits: {
+            id: number;
+            nameID: string;
+            nameEN: string;
+        }[];
+    };
 }
 
-const CardCoffin = ({ product }: CardCoffinProps) => {
+const CardCoffin = ({ coffin }: CardCoffinProps) => {
     const { language } = useLanguage();
+
+    function detailCoffin(slug: string) {
+        router.get(`/coffins/${slug}`);
+    }
     return (
         <motion.div
             whileHover={{ y: -12 }}
@@ -21,6 +42,7 @@ const CardCoffin = ({ product }: CardCoffinProps) => {
                 boxShadow:
                     "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
             }}
+            onClick={() => detailCoffin(coffin.slug)}
         >
             {/* Hover Shadow */}
             <div
@@ -33,8 +55,8 @@ const CardCoffin = ({ product }: CardCoffinProps) => {
             {/* Image Container */}
             <div className="relative aspect-[3/4] overflow-hidden">
                 <motion.img
-                    src={product.image}
-                    alt={language === "ID" ? product.nameID : product.nameEN}
+                    src={coffin.photos?.[0]?.photo || ""}
+                    alt={language === "ID" ? coffin.nameID : coffin.nameEN}
                     className="w-full h-full object-cover"
                     whileHover={{ scale: 1.1 }}
                     transition={{
@@ -45,15 +67,6 @@ const CardCoffin = ({ product }: CardCoffinProps) => {
 
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
-
-                {/* Category Badge */}
-                <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1.5 bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-sm text-[#C8A45C] dark:text-[#D4AF37] rounded-full text-xs font-semibold shadow-lg">
-                        {language === "ID"
-                            ? product.category
-                            : product.categoryEN}
-                    </span>
-                </div>
 
                 {/* Quick View Overlay */}
                 <motion.div
@@ -69,7 +82,7 @@ const CardCoffin = ({ product }: CardCoffinProps) => {
                         }}
                         transition={{ delay: 0.1 }}
                         className="px-6 py-3 bg-white dark:bg-[#1E293B] rounded-xl text-[#C8A45C] dark:text-[#D4AF37] font-semibold text-sm shadow-2xl"
-                        // onClick={() => onOrderClick(product.id)}
+                        // onClick={() => onOrderClick(coffin.id)}
                     >
                         {language === "ID" ? "Lihat Detail" : "View Details"}
                     </motion.div>
@@ -85,18 +98,24 @@ const CardCoffin = ({ product }: CardCoffinProps) => {
                         fontFamily: "Playfair Display, serif",
                     }}
                 >
-                    {language === "ID" ? product.nameID : product.nameEN}
+                    {language === "ID" ? coffin.nameID : coffin.nameEN}
                 </h3>
 
                 {/* description */}
-                <p className="text-[#6B7280] dark:text-[#CBD5E1] mb-6 text-sm font-medium line-clamp-5">
-                    {language === "ID" ? product.descriptionID : product.descriptionEN}
-                </p>
-
+                <p
+                    className="text-[#6B7280] dark:text-[#CBD5E1] mb-6 text-sm font-medium line-clamp-5 prose prose-sm dark:prose-invert"
+                    // style untuk inner html didalam database
+                    dangerouslySetInnerHTML={{
+                        __html:
+                            language === "ID"
+                                ? coffin.descriptionID
+                                : coffin.descriptionEN,
+                    }}
+                />
 
                 {/* CTA Button */}
                 <motion.button
-                    // onClick={() => onOrderClick(product.id)}
+                    onClick={() => detailCoffin(coffin.slug)}
                     className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C8A45C] to-[#B69449] dark:from-[#D4AF37] dark:to-[#C29F2E] text-white rounded-xl font-medium text-sm shadow-lg group-hover:shadow-xl transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

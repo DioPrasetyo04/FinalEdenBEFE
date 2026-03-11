@@ -23,28 +23,31 @@ interface TeamSectionProps {
     team_stats: TeamStats;
 }
 
-const statCards = (stats: TeamStats, language: string) => [
-    {
-        icon: Users,
-        label: language === "ID" ? "Struktur Pengelola" : "Management Structure",
-        value: stats.struktur_pengelola,
-    },
-    {
-        icon: GraduationCap,
-        label: language === "ID" ? "Tenaga Pendidik" : "Educators",
-        value: stats.tenaga_pendidik,
-    },
-    {
-        icon: Briefcase,
-        label: language === "ID" ? "Total Staff" : "Total Staff",
-        value: stats.total_staff,
-    },
-];
-
 export function TeamSection({ team, team_stats }: TeamSectionProps) {
     const { language } = useLanguage();
 
-    const stats = statCards(team_stats, language);
+    const statCards = (stats: TeamStats) => [
+        {
+            icon: Users,
+            label:
+                language === "ID"
+                    ? "Struktur Pengelola"
+                    : "Management Structure",
+            value: stats.struktur_pengelola,
+        },
+        {
+            icon: GraduationCap,
+            label: language === "ID" ? "Tenaga Pendidik" : "Educators",
+            value: stats.tenaga_pendidik,
+        },
+        {
+            icon: Briefcase,
+            label: language === "ID" ? "Total Staff" : "Total Staff",
+            value: stats.total_staff,
+        },
+    ];
+
+    const stats = statCards(team_stats);
 
     return (
         <section
@@ -133,7 +136,9 @@ export function TeamSection({ team, team_stats }: TeamSectionProps) {
 
                                 <h3
                                     className="text-base font-semibold text-[#111827] dark:text-[#F9FAFB] mb-1 line-clamp-2"
-                                    style={{ fontFamily: "Playfair Display, serif" }}
+                                    style={{
+                                        fontFamily: "Playfair Display, serif",
+                                    }}
                                 >
                                     {member.name}
                                 </h3>

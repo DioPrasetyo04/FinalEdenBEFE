@@ -6,8 +6,9 @@ import CardCoffin from "@/components/Coffin/CardCoffin";
 
 export interface ProductsProps {
     onOrderClick: (slug: string) => void;
+    coffins: any;
 }
-export function CoffinProducts({ onOrderClick }: ProductsProps) {
+export function CoffinProducts({ onOrderClick, coffins }: ProductsProps) {
     const { language } = useLanguage();
 
     const text =
@@ -56,10 +57,10 @@ export function CoffinProducts({ onOrderClick }: ProductsProps) {
 
                 {/* Product Cards Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                    {productCoffins.length > 0 ? (
-                        productCoffins.map((product, index) => (
+                    {coffins.length > 0 ? (
+                        coffins.map((coffin: any, index: number) => (
                             <motion.div
-                                key={product.id}
+                                key={coffin.id}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
@@ -70,7 +71,7 @@ export function CoffinProducts({ onOrderClick }: ProductsProps) {
                                 }}
                                 className="group"
                             >
-                                <CardCoffin product={product}></CardCoffin>
+                                <CardCoffin coffin={coffin}></CardCoffin>
                             </motion.div>
                         ))
                     ) : (

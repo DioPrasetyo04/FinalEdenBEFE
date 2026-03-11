@@ -27,6 +27,8 @@ class TeamService implements TeamServiceInterface
     {
         $roles = $member['roles'] ?? [];
 
+        $name = $member['name'] ?? [];
+
         // Map the Spatie role name to a friendly Indonesian job title
         $primaryRole = $roles[0]['name'] ?? null;
         $jobTitle = $this->mapRoleToTitle($primaryRole);
@@ -39,7 +41,6 @@ class TeamService implements TeamServiceInterface
             'photo'     => $member['photo']
                 ? asset('storage/' . $member['photo'])
                 : null,
-            'role'      => $primaryRole,
             'job_title' => $jobTitle,
         ];
     }

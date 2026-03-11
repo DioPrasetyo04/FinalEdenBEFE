@@ -27,7 +27,6 @@ class CategoryForm
                     TextInput::make('slug')
                         ->label('Slug')
                         ->required()
-                        ->disabled()
                         ->readOnly()
                         ->unique(ignoreRecord: true)
                         ->maxLength(255),

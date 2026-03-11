@@ -2,66 +2,38 @@ import { motion } from "motion/react";
 import { Users, Award, Briefcase } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
-interface TeamMember {
-    nameID: string;
-    nameEN: string;
-    positionID: string;
-    positionEN: string;
-    image: string;
+// interface TeamMember moved to backend logic
+
+interface OurTeamProps {
+    teams: any[];
+    stats?: any;
 }
 
-export function OurTeam() {
-    const teamMembers: TeamMember[] = [
-        {
-            nameID: "Bapak Johanes Susanto",
-            nameEN: "Mr. Johanes Susanto",
-            positionID: "Direktur Utama",
-            positionEN: "Chief Executive Officer",
-            image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400",
-        },
-        {
-            nameID: "Ibu Maria Putri",
-            nameEN: "Mrs. Maria Putri",
-            positionID: "Manajer Operasional",
-            positionEN: "Operations Manager",
-            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
-        },
-        {
-            nameID: "Bapak Ahmad Wijaya",
-            nameEN: "Mr. Ahmad Wijaya",
-            positionID: "Koordinator Layanan",
-            positionEN: "Service Coordinator",
-            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400",
-        },
-        {
-            nameID: "Ibu Siti Nurhaliza",
-            nameEN: "Mrs. Siti Nurhaliza",
-            positionID: "Manajer Hubungan Pelanggan",
-            positionEN: "Customer Relations Manager",
-            image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400",
-        },
-    ];
+export function OurTeam({ teams, stats }: OurTeamProps) {
+    const { language } = useLanguage();
 
-    const stats = [
+    const defaultStats = [
         {
             icon: Users,
             labelID: "Struktur Pengelola",
             labelEN: "Management Structure",
-            count: "5",
+            count: stats.struktur_pengelola ?? 0,
         },
         {
             icon: Award,
-            labelID: "Tenaga Pendidik",
-            labelEN: "Teaching Staff",
-            count: "8",
+            labelID: "Manajemen Operasional",
+            labelEN: "Operational Management",
+            count: stats.editor ?? 0,
         },
         {
             icon: Briefcase,
             labelID: "Total Staff",
             labelEN: "Total Staff",
-            count: "12",
+            count: stats.total_staff ?? 0,
         },
     ];
+
+    const statsData = defaultStats;
 
     const content = {
         ID: {
@@ -75,8 +47,6 @@ export function OurTeam() {
             subtitle: "Get to know our team of professionals who are dedicated",
         },
     };
-
-    const { language } = useLanguage();
 
     const text = language === "ID" ? content.ID : content.EN;
 
@@ -113,7 +83,7 @@ export function OurTeam() {
 
                 {/* Team Members Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                    {teamMembers.map((member, index) => (
+                    {teams.map((team: any, index: number) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 30 }}
@@ -124,18 +94,18 @@ export function OurTeam() {
                             className="bg-white dark:bg-[#1E293B] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
                         >
                             {/* Image */}
-                            <div className="relative h-64 overflow-hidden">
-                                <motion.img
-                                    src={member.image}
-                                    alt={
-                                        language === "ID"
-                                            ? member.nameID
-                                            : member.nameEN
-                                    }
-                                    className="w-full h-full object-cover"
-                                    whileHover={{ scale: 1.1 }}
-                                    transition={{ duration: 0.3 }}
-                                />
+                            <div className="relative h-64 overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                                {team.photo ? (
+                                    <motion.img
+                                        src={team.photo}
+                                        alt={team.name}
+                                        className="w-full h-full object-cover"
+                                        whileHover={{ scale: 1.1 }}
+                                        transition={{ duration: 0.3 }}
+                                    />
+                                ) : (
+                                    <Users className="w-20 h-20 text-gray-300 dark:text-gray-600" />
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                             </div>
 
@@ -147,14 +117,10 @@ export function OurTeam() {
                                         fontFamily: "Playfair Display, serif",
                                     }}
                                 >
-                                    {language === "ID"
-                                        ? member.nameID
-                                        : member.nameEN}
+                                    {team.name}
                                 </h3>
                                 <p className="text-[#6B7280] dark:text-[#CBD5E1]">
-                                    {language === "ID"
-                                        ? member.positionID
-                                        : member.positionEN}
+                                    {team.job_title}
                                 </p>
                             </div>
                         </motion.div>
@@ -169,7 +135,7 @@ export function OurTeam() {
                     transition={{ delay: 0.4, duration: 0.6 }}
                     className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
                 >
-                    {stats.map((stat, index) => (
+                    {statsData.map((stat: any, index: number) => (
                         <motion.div
                             key={index}
                             whileHover={{ scale: 1.05 }}

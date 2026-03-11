@@ -26,15 +26,17 @@ class HomeController extends Controller
         $categories  = $this->categoryService->getAll();
         $galeries    = $this->galeryService->getAll();
         $mitras      = $this->mitraService->getAll();
-        $team        = $this->teamService->getAll();
+        $teams       = $this->teamService->getAll();
         $team_stats  = $this->teamService->getStats();
+
+        // dd($team_stats);
 
         return Inertia::render('Home/Index', [
             'coffins'    => $coffins,
             'categories' => $categories,
             'galeries'   => $galeries,
             'mitras'     => $mitras,
-            'team'       => $team,
+            'teams'       => $teams,
             'team_stats' => $team_stats,
         ]);
     }

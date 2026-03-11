@@ -3,73 +3,28 @@ import { useState } from "react";
 import { X, ZoomIn } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
-interface GalleryImage {
-    id: number;
-    url: string;
-    titleID: string;
-    titleEN: string;
-    category: string;
+interface PropsGalery {
+    categories: any;
+    galeries: any;
 }
 
-export function GallerySection() {
+interface GalleryImage {
+    id: number;
+    photo: string;
+    name: string;
+    description: string | null;
+    category: {
+        id: number;
+        name: string;
+        slug: string;
+    } | null;
+}
+
+export function GallerySection({ categories, galeries }: PropsGalery) {
     const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(
         null,
     );
-    const [filter, setFilter] = useState<string>("all");
-
-    const images: GalleryImage[] = [
-        {
-            id: 1,
-            url: "https://images.unsplash.com/photo-1642084386112-cf73c9b7c27f?w=800",
-            titleID: "Dekorasi Upacara Pemakaman",
-            titleEN: "Funeral Ceremony Decoration",
-            category: "ceremony",
-        },
-        {
-            id: 2,
-            url: "https://images.unsplash.com/photo-1636725833624-e3ced8395db5?w=800",
-            titleID: "Peti Jenazah Premium",
-            titleEN: "Premium Casket",
-            category: "casket",
-        },
-        {
-            id: 3,
-            url: "https://images.unsplash.com/photo-1711615745585-59213ecfec47?w=800",
-            titleID: "Prosesi dengan Lilin",
-            titleEN: "Candle Procession",
-            category: "ceremony",
-        },
-        {
-            id: 4,
-            url: "https://images.unsplash.com/photo-1686807561227-18e9e7f2d472?w=800",
-            titleID: "Area Pemakaman Tenang",
-            titleEN: "Peaceful Cemetery Area",
-            category: "cemetery",
-        },
-        {
-            id: 5,
-            url: "https://images.unsplash.com/photo-1762967017690-96b4fae9be76?w=800",
-            titleID: "Ruang Upacara Megah",
-            titleEN: "Grand Ceremony Hall",
-            category: "venue",
-        },
-        {
-            id: 6,
-            url: "https://images.unsplash.com/photo-1608181693153-4163b95fde52?w=800",
-            titleID: "Rangkaian Bunga Duka",
-            titleEN: "Funeral Flower Arrangement",
-            category: "flowers",
-        },
-    ];
-
-    const categories = [
-        { id: "all", labelID: "Semua", labelEN: "All" },
-        { id: "ceremony", labelID: "Upacara", labelEN: "Ceremony" },
-        { id: "casket", labelID: "Peti Jenazah", labelEN: "Casket" },
-        { id: "cemetery", labelID: "Pemakaman", labelEN: "Cemetery" },
-        { id: "venue", labelID: "Tempat", labelEN: "Venue" },
-        { id: "flowers", labelID: "Bunga", labelEN: "Flowers" },
-    ];
+    const [filter, setFilter] = useState<string | number>("all");
 
     const content = {
         ID: {
@@ -90,8 +45,8 @@ export function GallerySection() {
 
     const filteredImages =
         filter === "all"
-            ? images
-            : images.filter((img) => img.category === filter);
+            ? galeries
+            : galeries.filter((img: any) => img.category?.id === filter);
 
     return (
         <section className="py-20 bg-gradient-to-br from-white via-[#DCEAF5]/20 to-white dark:from-[#0F172A] dark:via-[#1E293B]/50 dark:to-[#0F172A]">
@@ -123,7 +78,19 @@ export function GallerySection() {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className="flex flex-wrap justify-center gap-3 mb-12"
                 >
-                    {categories.map((category) => (
+                    {/* "All" Filter Button */}
+                    <button
+                        onClick={() => setFilter("all")}
+                        className={`px-6 py-2 rounded-full font-medium transition-all ${
+                            filter === "all"
+                                ? "bg-[#C8A45C] dark:bg-[#D4AF37] text-white shadow-lg"
+                                : "bg-[#F9FAFB] dark:bg-[#1E293B] text-[#6B7280] dark:text-[#CBD5E1] hover:bg-[#E5E7EB] dark:hover:bg-[#334155]"
+                        }`}
+                    >
+                        {language === "ID" ? "Semua" : "All"}
+                    </button>
+
+                    {categories.map((category: any) => (
                         <button
                             key={category.id}
                             onClick={() => setFilter(category.id)}
@@ -133,16 +100,14 @@ export function GallerySection() {
                                     : "bg-[#F9FAFB] dark:bg-[#1E293B] text-[#6B7280] dark:text-[#CBD5E1] hover:bg-[#E5E7EB] dark:hover:bg-[#334155]"
                             }`}
                         >
-                            {language === "ID"
-                                ? category.labelID
-                                : category.labelEN}
+                            {category.name}
                         </button>
                     ))}
                 </motion.div>
 
                 {/* Gallery Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredImages.map((image, index) => (
+                    {filteredImages.map((image: any, index: number) => (
                         <motion.div
                             key={image.id}
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -156,12 +121,8 @@ export function GallerySection() {
                             {/* Image */}
                             <div className="relative aspect-[4/3] overflow-hidden bg-[#F9FAFB] dark:bg-[#1E293B]">
                                 <img
-                                    src={image.url}
-                                    alt={
-                                        language === "ID"
-                                            ? image.titleID
-                                            : image.titleEN
-                                    }
+                                    src={image.photo}
+                                    alt={image.name}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                                 {/* Overlay */}
@@ -177,9 +138,7 @@ export function GallerySection() {
                                 {/* Title */}
                                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                                     <h3 className="text-white text-lg font-semibold">
-                                        {language === "ID"
-                                            ? image.titleID
-                                            : image.titleEN}
+                                        {image.name}
                                     </h3>
                                 </div>
                             </div>
@@ -194,7 +153,7 @@ export function GallerySection() {
                         animate={{ opacity: 1 }}
                         className="text-center py-12"
                     >
-                        <p className="text-[#6B7280] dark:text-[#CBD5E1]">
+                        <p className="text-[#6B7280] dark:text-[#CBD5E1] text-2xl font-bold">
                             {language === "ID"
                                 ? "Tidak ada gambar dalam kategori ini."
                                 : "No images in this category."}
@@ -205,54 +164,48 @@ export function GallerySection() {
 
             {/* Lightbox Modal */}
             {selectedImage && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
-                    onClick={() => setSelectedImage(null)}
-                >
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        className="relative max-w-5xl w-full"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {/* Close Button */}
-                        <button
-                            onClick={() => setSelectedImage(null)}
-                            className="absolute -top-12 right-0 p-2 text-white hover:text-[#C8A45C] transition-colors"
-                        >
-                            <X className="w-8 h-8" />
-                        </button>
+              <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+    onClick={() => setSelectedImage(null)}
+>
+    <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        className="relative max-w-5xl w-full flex flex-col items-center justify-center text-center"
+        onClick={(e) => e.stopPropagation()}
+    >
+        {/* Close Button */}
+        <button
+            onClick={() => setSelectedImage(null)}
+            className="absolute -top-12 right-0 p-2 text-white hover:text-[#C8A45C] transition-colors"
+        >
+            <X className="w-8 h-8" />
+        </button>
 
-                        {/* Image */}
-                        <img
-                            src={selectedImage.url}
-                            alt={
-                                language === "ID"
-                                    ? selectedImage.titleID
-                                    : selectedImage.titleEN
-                            }
-                            className="w-full h-auto rounded-lg shadow-2xl"
-                        />
+        {/* Image */}
+        <img
+            src={selectedImage.photo}
+            alt={selectedImage.name}
+            className="lg:w-[450px] md:w-[350px] w-full h-auto rounded-lg shadow-2xl"
+        />
 
-                        {/* Title */}
-                        <div className="mt-4 text-center">
-                            <h3
-                                className="text-white text-2xl"
-                                style={{
-                                    fontFamily: "Playfair Display, serif",
-                                }}
-                            >
-                                {language === "ID"
-                                    ? selectedImage.titleID
-                                    : selectedImage.titleEN}
-                            </h3>
-                        </div>
-                    </motion.div>
-                </motion.div>
+        {/* Title */}
+        <div className="mt-4 text-center">
+            <h3
+                className="text-white text-2xl"
+                style={{
+                    fontFamily: "Playfair Display, serif",
+                }}
+            >
+                {selectedImage.name}
+            </h3>
+        </div>
+    </motion.div>
+</motion.div>
             )}
         </section>
     );

@@ -36,9 +36,9 @@ class UserForm
                             ->label('Password')
                             ->password()
                             ->revealable()
-                            ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $operation) => $operation === 'create')
+                            ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                            ->dehydrated(fn($state) => filled($state))
+                            ->required(fn(string $operation) => $operation === 'create')
                             ->maxLength(255),
 
                         TextInput::make('phone')

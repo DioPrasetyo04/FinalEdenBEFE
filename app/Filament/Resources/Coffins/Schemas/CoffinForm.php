@@ -96,9 +96,9 @@ class CoffinForm
                         ->createOptionUsing(function (array $data): int {
                             $translations = $data['translations'] ?? [];
                             unset($data['translations']);
-                    
+
                             $benefit = \App\Models\Benefit::create($data);
-                    
+
                             foreach (['id', 'en'] as $locale) {
                                 if (isset($translations[$locale])) {
                                     $benefit->translations()->create([
@@ -108,7 +108,7 @@ class CoffinForm
                                     ]);
                                 }
                             }
-                    
+
                             return $benefit->id;
                         })
                         ->createOptionForm([
